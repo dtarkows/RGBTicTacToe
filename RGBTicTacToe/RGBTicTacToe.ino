@@ -37,10 +37,7 @@ void loop() {
   // Draw a purple line for the second vertical line
   matrix.drawLine(21, 0, 21, 31, matrix.Color333(7, 0, 7));
 
-  drawX(0, matrix.Color333(7, 7, 7));
-  drawX(4, matrix.Color333(0, 7, 7));
-  drawX(8, matrix.Color333(7, 7, 0));
-
+  drawO();
 }
 
 void drawX(uint8_t boxNum, uint16_t color) {
@@ -51,5 +48,18 @@ void drawX(uint8_t boxNum, uint16_t color) {
   matrix.drawLine(startX, startY, startX+boxWidth, startY+boxWidth, color);
   matrix.drawLine(startX, startY+boxWidth, startX+boxWidth, startY, color);
 }
+
+void drawO(void) {
+  
+  uint8_t boxWidth = 9;
+  uint8_t radius = 4;
+  uint8_t startX = 5;
+  uint8_t startY = 5;
+
+  matrix.drawCircle(startX, startY, radius, matrix.Color333(7,7,7));
+  
+}
+
+
 
 
