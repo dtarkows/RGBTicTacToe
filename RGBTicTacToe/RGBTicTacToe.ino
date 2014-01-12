@@ -57,13 +57,20 @@ void loop() {
 
 void drawBoard(void) {
   // Draw a red line for the first horizontal line
-  matrix.drawLine(0, 10, 31, 10, matrix.Color333(7, 0, 0));
+  matrix.drawLine(0, 10, 20, 10, matrix.Color333(7, 0, 0));
+  matrix.drawLine(22, 10, 31, 10, matrix.Color333(7, 0, 0));
+  
   // Draw a green line for the second horizontal line
-  matrix.drawLine(0, 21, 31, 21, matrix.Color333(0, 7, 0));
+  matrix.drawLine(0, 21, 9, 21, matrix.Color333(0, 7, 0));
+  matrix.drawLine(11, 21, 31, 21, matrix.Color333(0, 7, 0));
+  
   // Draw a blue line for the first vertical line
-  matrix.drawLine(10, 0, 10, 31, matrix.Color333(0, 0, 7));
+  matrix.drawLine(10, 0, 10, 9, matrix.Color333(0, 0, 7));
+  matrix.drawLine(10, 11, 10, 31, matrix.Color333(0, 0, 7));
+
   // Draw a purple line for the second vertical line
-  matrix.drawLine(21, 0, 21, 31, matrix.Color333(7, 0, 7));
+  matrix.drawLine(21, 0, 21, 20, matrix.Color333(7, 0, 7));
+  matrix.drawLine(21, 22, 21, 31, matrix.Color333(7, 0, 7));
 }
 void drawX(uint8_t boxNum, uint16_t color) {
   const uint8_t boxWidth = 9;
