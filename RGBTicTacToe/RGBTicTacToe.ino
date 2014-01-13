@@ -21,16 +21,22 @@
 #define MOVE_PIN 11
 #define STOP_PIN 12
 
+char boxStates[9]; 
 RGBmatrixPanel matrix(A, B, C, D, CLK, LAT, OE, false);
 
 void setup() {
 
+  
   pinMode(MOVE_PIN, INPUT_PULLUP);
   pinMode(STOP_PIN, INPUT_PULLUP);
   
+  for (int j = 0; j < 9; j++){
+    boxStates[j] = 0;
+  }
+  
   matrix.begin();
   drawBoard();
-  drawX(0, matrix.Color333(7,7,7));  
+  drawX(0, matrix.Color333(7,7,0));  
 }
 
 uint8_t curBox = 0;
@@ -41,7 +47,6 @@ int moveVal = HIGH;
 int stopVal = HIGH;
 
 void loop() {
-
   drawBoard();
   
   uint16_t curTime = millis();
@@ -51,8 +56,8 @@ void loop() {
     
     if ( (curMoveVal != moveVal) && (curMoveVal == LOW) ) {
       drawPiece(curPiece, curBox, matrix.Color333(0,0,0));
-      curBox = (curBox + 1) % 9;
-      drawPiece(curPiece, curBox, matrix.Color333(7,7,7));
+      curBox = getNextBoxNum(curBox);
+      drawPiece(curPiece, curBox, matrix.Color333(7,7,0));
     }
     
     moveVal = curMoveVal;
@@ -60,15 +65,27 @@ void loop() {
     int curStopVal = digitalRead(STOP_PIN);
     
     if ( ( curStopVal != stopVal) && (curStopVal == LOW) ) {
-      drawPiece(curPiece, curBox, matrix.Color333(0,0,0));
-      curPiece = -curPiece;
       drawPiece(curPiece, curBox, matrix.Color333(7,7,7));
+      boxStates[curBox] = curPiece;
+      curBox = getNextBoxNum(curBox);
+      curPiece = -curPiece;
+      drawPiece(curPiece, curBox, matrix.Color333(7,7,0));
     }
     
     stopVal = curStopVal;
   
     lastReadTime = curTime;
   } 
+}
+
+int getNextBoxNum(int curBoxNum) {
+  int nextBox = (curBoxNum + 1) % 9;
+  
+  while (boxStates[nextBox] != 0) {
+    nextBox = (nextBox + 1) % 9;
+  }
+  
+  return nextBox;
 }
 
 void drawBoard(void) {
